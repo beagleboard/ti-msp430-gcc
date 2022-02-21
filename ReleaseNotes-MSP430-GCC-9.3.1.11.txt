@@ -1,0 +1,34 @@
+﻿MSP430-GCC 9.3.1.11 Release Notes
+---
+GCC
+* Fixed use of the "persistent" attribute always being reported invalid
+  for C++ programs.
+* Fixed "location" attribute still being applied when misused.
+* Fixed prologue and epilogue of __mspabi_mpyll hardware multiply
+  library function for f5series and 32bit hwmult devices not
+  saving/restoring the full contents of some general purpose registers.
+* Fixed errors when using the C++ numeric_limits class template with
+  __int20 in constant expressions.
+* Added -muse-430x-for-mem option to force the compiler to generate
+  430X instructions when addressing memory operands.
+* Updated hard-coded MSP430 MCU data to v1.210 of the MSP430-GCC Support
+  Files.
+
+Binutils
+* Fixed incorrect linker shuffling of ".either" sections when an output
+  section description from the linker script has no assignment
+  expressions in it.
+* Fixed objdump "section size is larger than file size" error when
+  trying to disassemble programs with large .bss sections.
+* Fixed the linker creating empty ELF segments in executable files
+  containing empty .bss sections.
+
+GDB
+* The simulator executable (msp430-elf-run) now detects and reports stack
+  overflow.
+
+Newlib (C Library)
+* Homogenized upper and lower memory regions of simulator linker script.
+  -msim-rom-model can be used to select the old simulator linker script for
+  -mlarge, which followed the ROM program model, where read/write data is
+  initialized at run time instead of load time.

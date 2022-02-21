@@ -1,0 +1,31 @@
+/* { dg-do assemble } */
+/* { dg-additional-options "-fexceptions" } */
+
+class A {};
+class B {};
+
+static void *func (int n)
+{
+  void *p;
+  if (p == 0) throw ::A ();
+}	// { dg-warning "control reaches end of non-void function" }
+
+static void *func (int n, B const &)
+{
+  try {
+      return func (n);
+  }
+  catch (::A const &) {
+  }
+  return func (n);
+}
+
+void *f1 (int n)
+{
+  return func (n, B());
+}
+
+void *f2 (int n)
+{
+  return func (n, B());
+}

@@ -1,0 +1,13 @@
+#source: warn-either.s
+#ld: -L. -T msp430-no-lower.ld
+#readelf: -S
+
+#...
+.*\.text.*
+#...
+.*\.data.*
+#...
+.*\.bss.*
+#...
+.*\.rodata.*
+#pass

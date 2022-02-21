@@ -1,0 +1,83 @@
+# Copyright (C) 2015-2019 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  
+
+# GCC testsuite that uses the `dg.exp' driver.
+
+# Exit immediately if this isn't the right target.
+if { ![istarget msp430-*-*] } then {
+    return
+}
+
+proc check_effective_target_430_selected { } {
+    return [check-flags [list "" { *-*-* } { "-mcpu=msp430" } { "" } ]]
+}
+
+proc check_effective_target_msp430_region_not_lower { } {
+    return [check-flags [list "" { *-*-* } { "-mdata-region=none" "-mdata-region=upper" "-mdata-region=either" } { "" } ]]
+}
+
+proc check_effective_target_msp430_region_lower { } {
+    return [check-flags [list "" { *-*-* } { "*" } { "-mdata-region=none" "-mdata-region=upper" "-mdata-region=either" } ]]
+}
+
+proc check_effective_target_msp430_region_upper { } {
+    return [check-flags [list "" { *-*-* } { "-mdata-region=upper" "-mcode-region=upper" } { "" } ]]
+}
+
+proc check_effective_target_msp430_hwmul_not_none { } {
+    return [check-flags [list "" { *-*-* } \
+    { "-mhwmult=16bit" "-mhwmult=32bit" "-mhwmult=f5series" } { "" } ]]
+}
+
+proc check_effective_target_msp430_hwmul_not_16bit { } {
+    return [check-flags [list "" { *-*-* } \
+    { "-mhwmult=f5series" "-mhwmult=32bit" } { "" } ]]
+}
+
+proc check_effective_target_msp430_hwmul_not_32bit { } {
+    return [check-flags [list "" { *-*-* } \
+    { "-mhwmult=16bit" "-mhwmult=f5series" } { "" } ]]
+}
+
+proc check_effective_target_msp430_hwmul_not_f5 { } {
+    return [check-flags [list "" { *-*-* } \
+    { "-mhwmult=16bit" "-mhwmult=32bit" } { "" } ]]
+}
+
+proc check_effective_target_msp430_tiny_printf { } {
+    return [check-flags [list "" { *-*-* } \
+    { "-mtiny-printf" } { "" } ]]
+}
+
+# Load support procs.
+load_lib g++-dg.exp
+
+global DEFAULT_CXXFLAGS
+if ![info exists DEFAULT_CXXFLAGS] then {
+    set DEFAULT_CXXFLAGS " -pedantic-errors"
+}
+
+# Initialize `dg'.
+dg-init
+
+# Main loop.
+dg-runtest [lsort [glob -nocomplain $srcdir/$subdir/*.C]] \
+        "" $DEFAULT_CXXFLAGS
+
+dg-runtest [lsort [glob -nocomplain $srcdir/$subdir/metasym-location/*.C]] \
+	"" "-L$srcdir/$subdir/metasym-location/ -w"
+# All done.
+dg-finish

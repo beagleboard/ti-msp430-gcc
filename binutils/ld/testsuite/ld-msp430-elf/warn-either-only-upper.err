@@ -1,0 +1,1 @@
+.*warning: no section named .lower.rodata or .rodata in linker script, required to shuffle .either.rodata between regions

@@ -1,0 +1,4 @@
+.*warning: no section named .upper.data in linker script, required to shuffle .either.data between regions
+.*warning: no section named .upper.bss in linker script, required to shuffle .either.bss between regions
+.*warning: no section named .upper.rodata in linker script, required to shuffle .either.rodata between regions
+.*warning: no section named .upper.text in linker script, required to shuffle .either.text between regions
